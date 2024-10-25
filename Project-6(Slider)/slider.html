@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Employee Records</title>
+    <style>
+        body {
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Employee Records</h1>
+        <div class="mb-3">
+            <button class="btn btn-primary" onclick="calculateSalarySum()">Calculate Total Salary</button>
+            <span id="totalSalary" class="ml-3"></span>
+        </div>
+
+        <div class="mb-3">
+            <select id="cityFilter" class="form-control w-25" onchange="filterByCity()">
+                <option value="">Select City</option>
+                <option value="surat">Surat</option>
+                <option value="vadodara">Vadodara</option>
+                <option value="vapi">Vapi</option>
+                <option value="rajkot">Rajkot</option>
+            </select>
+        </div>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>City</th>
+                    <th>Salary</th>
+                    <th>Designation</th>
+                    <th>Department</th>
+                </tr>
+            </thead>
+            <tbody id="recordTable">
+            
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        let record = [
+            { id: 1, name: "ashish", email: "ashu@gmail.com", phone: "1121212", city: "surat", salary: 20000, degi: "senior", dep: "programming" },
+            { id: 2, name: "hari", email: "hari@gmail.com", phone: "5454545", city: "surat", salary: 22000, degi: "junior", dep: "ui/ux" },
+            { id: 3, name: "raj", email: "raj@gmail.com", phone: "454545", city: "vadodara", salary: 25000, degi: "junior", dep: "bde" },
+            { id: 4, name: "deep", email: "deep@gmail.com", phone: "565656", city: "vapi", salary: 30000, degi: "tl", dep: "webdesign" },
+            { id: 5, name: "jay", email: "jay@gmail.com", phone: "5565656", city: "rajkot", salary: 20000, degi: "senior", dep: "programming" },
+            { id: 6, name: "ajay", email: "ajay@gmail.com", phone: "5565656", city: "vapi", salary: 25000, degi: "manager", dep: "ui/ux" }
+        ];
+
+        function populateTable(data) {
+            const tableBody = document.getElementById('recordTable');
+            tableBody.innerHTML = '';
+
+            data.forEach(item => {
+                const row = `<tr>
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td>${item.phone}</td>
+                    <td>${item.city}</td>
+                    <td>${item.salary}</td>
+                    <td>${item.degi}</td>
+                    <td>${item.dep}</td>
+                </tr>`;
+                tableBody.innerHTML += row;
+            });
+        }
+
+        function calculateSalarySum() {
+            const total = record.reduce((sum, item) => sum + item.salary, 0);
+            document.getElementById('totalSalary').innerText = `Total Salary: ${total}`;
+        }
+
+        function filterByCity() {
+            const city = document.getElementById('cityFilter').value;
+            const filteredRecords = city ? record.filter(item => item.city === city) : record;
+            populateTable(filteredRecords);
+        }
+
+        populateTable(record);
+    </script>
+</body>
+</html>
